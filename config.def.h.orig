@@ -1,4 +1,7 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
+#include "fibonacci.c"
+#include "layouts.c"
 
 /* appearance */
 static unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -48,9 +51,15 @@ static int resizehints = 1;    /* 1 means respect size hints in tiled resizals *
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+	{ "[Tile]",      tile },    /* first entry is default */
+	{ "[Float]",      NULL },    /* no layout function means floating behavior */
+	{ "[Monocle]",      monocle },
+	{ "[CM]",      centeredmaster },
+	{ "[CFM]",      centeredfloatingmaster },
+	{ "[S]",      spiral },
+ 	{ "[D]",      dwindle },
+	{ "HHH",      grid },
+	{ NULL,       NULL },
 };
 
 /* key definitions */
@@ -68,6 +77,13 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
+
+/* commands */
+static const char *upvol[] = { "amixer", "set", "Master", "2+", NULL };
+static const char *downvol[] = { "amixer", "set", "Master", "2-", NULL };
+
+// for muting/unmuting //
+static const char *mute[] = { "amixer", "-q", "set", "Master", "toggle", NULL };
 
 /*
  * Xresources preferences to load at startup
@@ -99,12 +115,22 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
+	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
+	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[5]} },
+	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[6]} },
+	{ MODKEY|ControlMask,		XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
@@ -114,6 +140,14 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ 0,    XF86XK_AudioRaiseVolume,        spawn,          {.v = upvol } },
+	{ 0,    XF86XK_AudioLowerVolume,        spawn,          {.v = downvol } },
+    { 0,    XF86XK_AudioMute,               spawn,          {.v = mute } },
+    { 0,    XF86XK_MonBrightnessUp,         spawn,          SHCMD("light -A 5") },
+    { 0,    XF86XK_MonBrightnessDown,       spawn,          SHCMD("light -U 5") },
+    { 0,    XK_Print,                       spawn,          SHCMD("maim -m 10 ~/Screenshots/$(date +%s).png") },
+    { MODKEY,    XK_Print,                       spawn,     SHCMD(" maim | tee ~/Screenshots/$(date +%s).png | xclip -selection clipboard -t image/png") },
+    { ShiftMask,					XK_Print,	spawn,		SHCMD("maim -m 10 -f png -s ~/Screenshots/$(date +%s).png")},
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
