@@ -1,11 +1,10 @@
 --- dwm.c
 +++ dwm.c
-@@ -1579,7 +1588,7 @@ setup(void)
- 	/* init appearance */
- 	scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
- 	for (i = 0; i < LENGTH(colors); i++)
--		scheme[i] = drw_scm_create(drw, colors[i], 3);
-+		scheme[i] = drw_scm_create(drw, colors[i], 4);
- 	/* init bars */
- 	updatebars();
- 	updatestatus();
+@@ -212,6 +212,7 @@ static void tagmon(const Arg *arg);
+ static void tile(Monitor *);
+ static void togglebar(const Arg *arg);
+ static void togglefloating(const Arg *arg);
++static void togglesticky(const Arg *arg);
+ static void toggletag(const Arg *arg);
+ static void toggleview(const Arg *arg);
+ static void unfocus(Client *c, int setfocus);
