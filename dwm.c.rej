@@ -1,10 +1,11 @@
 --- dwm.c
 +++ dwm.c
-@@ -262,6 +264,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
- 	[UnmapNotify] = unmapnotify
- };
- static Atom wmatom[WMLast], netatom[NetLast];
-+static int restart = 0;
- static int running = 1;
- static Cur *cursor[CurLast];
- static Clr **scheme;
+@@ -1579,7 +1588,7 @@ setup(void)
+ 	/* init appearance */
+ 	scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
+ 	for (i = 0; i < LENGTH(colors); i++)
+-		scheme[i] = drw_scm_create(drw, colors[i], 3);
++		scheme[i] = drw_scm_create(drw, colors[i], 4);
+ 	/* init bars */
+ 	updatebars();
+ 	updatestatus();
