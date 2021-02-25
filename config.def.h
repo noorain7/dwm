@@ -19,20 +19,20 @@ static int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "mononoki Nerd Font:size=10" };
 static const char dmenufont[]       = "mononoki Nerd Font:size=10";
 static char normbgcolor[]           = "#000000";
-static char normbordercolor[]       = "#444444";
+static char normbordercolor[]       = "#5b6268";
 static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#eeeeee";
-static char selbordercolor[]        = "#005577";
-static char selbgcolor[]            = "#005577";
+static char selbordercolor[]        = "#ff6c6b";
+static char selbgcolor[]            = "#a9a1e1";
 static char *colors[][4] = {
        /*               fg           bg           border	float   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor , "#282a36" },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor , "#282a36"  },
 	   [SchemeStatus]  = { "#eeeeee", "#000000",  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-	   [SchemeTagsSel]  = { "#dfdfdf", "#005",  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+	   [SchemeTagsSel]  = { "#dfdfdf", "#c678dd",  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
        [SchemeTagsNorm]  = { "#eeeeee", "#282a36",  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-       [SchemeInfoSel]  = { "#eeeeee", "#ff6c6b",  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-       [SchemeInfoNorm]  = { "#5b6268", "#51afef",  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+       [SchemeInfoSel]  = { "#eeeeee", "#5699af",  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+       [SchemeInfoNorm]  = { "#5b6268", "#3071db",  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
 /* tagging */
@@ -151,7 +151,7 @@ static Key keys[] = {
     { 0,              XF86XK_AudioMute,        spawn,          {.v = mute } },
 	{ 0,			XF86XK_MonBrightnessUp,	spawn,		SHCMD("light -A 5")},
 	{ 0,			XF86XK_MonBrightnessDown,	spawn,		SHCMD("light -U 5")},
-	{ 0,			XK_Print,		spawn,				SHCMD("maim ~/Pictures/(date +%s).png")},
+	{ 0,			XK_Print,		spawn,				SHCMD("maim ~/Screenshots/$(date +%s).png")},
 	{ MODKEY,		XK_Print,		spawn,			SHCMD("maim -s | tee ~/Screenshots/$(date +%s).png | xclip -selection clipboard -t image/png")},
 	{ ShiftMask,		XK_Print,		spawn,	SHCMD("maim | tee ~/Pictures/$(date +%s).png | xclip -selection clipboard -t image/png")},
 	TAGKEYS(                        XK_1,                      0)
