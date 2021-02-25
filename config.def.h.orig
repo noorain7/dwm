@@ -1,3 +1,5 @@
+#include <X11/XF86keysym.h>
+
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
@@ -16,16 +18,21 @@ static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "mononoki Nerd Font:size=10" };
 static const char dmenufont[]       = "mononoki Nerd Font:size=10";
-static char normbgcolor[]           = "#222222";
+static char normbgcolor[]           = "#000000";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#eeeeee";
 static char selbordercolor[]        = "#005577";
 static char selbgcolor[]            = "#005577";
-static char *colors[][3] = {
-       /*               fg           bg           border   */
-       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
-       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+static char *colors[][4] = {
+       /*               fg           bg           border	float   */
+       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor , "#282a36" },
+       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor , "#282a36"  },
+	   [SchemeStatus]  = { "#eeeeee", "#000000",  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+	   [SchemeTagsSel]  = { "#dfdfdf", "#005",  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+       [SchemeTagsNorm]  = { "#eeeeee", "#282a36",  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+       [SchemeInfoSel]  = { "#eeeeee", "#ff6c6b",  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+       [SchemeInfoNorm]  = { "#5b6268", "#51afef",  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
 /* tagging */
@@ -48,8 +55,8 @@ static int resizehints = 1;    /* 1 means respect size hints in tiled resizals *
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "(Tile)",      tile },    /* first entry is default */
+	{ "(Float)",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 };
 
@@ -68,6 +75,13 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
+
+/* commands */
+static const char *upvol[] = { "amixer", "set", "Master", "2+", NULL };
+static const char *downvol[] = { "amixer", "set", "Master", "2-", NULL };
+
+// for muting/unmuting //
+static const char *mute[] = { "amixer", "-q", "set", "Master", "toggle", NULL };
 
 /*
  * Xresources preferences to load at startup
@@ -131,6 +145,14 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ 0,              XF86XK_AudioRaiseVolume, spawn,          {.v = upvol } },
+    { 0,              XF86XK_AudioLowerVolume, spawn,          {.v = downvol } },
+    { 0,              XF86XK_AudioMute,        spawn,          {.v = mute } },
+	{ 0,			XF86XK_MonBrightnessUp,	spawn,		SHCMD("light -A 5")},
+	{ 0,			XF86XK_MonBrightnessDown,	spawn,		SHCMD("light -U 5")},
+	{ 0,			XK_Print,		spawn,				SHCMD("maim ~/Pictures/(date +%s).png")},
+	{ MODKEY,		XK_Print,		spawn,			SHCMD("maim -s | tee ~/Screenshots/$(date +%s).png | xclip -selection clipboard -t image/png")},
+	{ ShiftMask,		XK_Print,		spawn,	SHCMD("maim | tee ~/Pictures/$(date +%s).png | xclip -selection clipboard -t image/png")},
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
