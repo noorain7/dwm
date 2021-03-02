@@ -1,4 +1,6 @@
 #include <X11/XF86keysym.h>
+#include "fibonacci.c"
+#include "layouts.c"
 
 /* See LICENSE file for copyright and license details. */
 
@@ -28,7 +30,7 @@ static char *colors[][4] = {
        /*               fg           bg           border	float   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor , "#282a36" },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor , "#282a36"  },
-	   [SchemeStatus]  = { "#eeeeee", "#000000",  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+	   [SchemeStatus]  = { "#f7f7fb", "#626483",  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
 	   [SchemeTagsSel]  = { "#000000", "#c678dd",  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
        [SchemeTagsNorm]  = { "#eeeeee", "#626483",  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
        [SchemeInfoSel]  = { "#eeeeee", "#5699af",  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
@@ -58,6 +60,12 @@ static const Layout layouts[] = {
 	{ "[T]=",      tile },    /* first entry is default */
 	{ "[F]=",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+	{ "|M|",      centeredmaster },
+	{ ">M>",      centeredfloatingmaster },
+	{ "[@]",      spiral },
+ 	{ "[\\]",      dwindle },
+	{ "HHH",      grid },
+	{ NULL,       NULL },
 };
 
 /* key definitions */
@@ -137,6 +145,13 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[5]} },
+	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[6]} },
+	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY|ControlMask,		XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_s,      togglesticky,   {0} },
