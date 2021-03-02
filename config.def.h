@@ -29,8 +29,8 @@ static char *colors[][4] = {
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor , "#282a36" },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor , "#282a36"  },
 	   [SchemeStatus]  = { "#eeeeee", "#000000",  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-	   [SchemeTagsSel]  = { "#dfdfdf", "#c678dd",  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-       [SchemeTagsNorm]  = { "#eeeeee", "#282a36",  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+	   [SchemeTagsSel]  = { "#000000", "#c678dd",  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+       [SchemeTagsNorm]  = { "#eeeeee", "#626483",  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
        [SchemeInfoSel]  = { "#eeeeee", "#5699af",  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
        [SchemeInfoNorm]  = { "#5b6268", "#3071db",  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
@@ -55,8 +55,8 @@ static int resizehints = 1;    /* 1 means respect size hints in tiled resizals *
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "(Tile)",      tile },    /* first entry is default */
-	{ "(Float)",      NULL },    /* no layout function means floating behavior */
+	{ "[T]=",      tile },    /* first entry is default */
+	{ "[F]=",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 };
 
