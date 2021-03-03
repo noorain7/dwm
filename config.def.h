@@ -7,10 +7,10 @@
 /* appearance */
 static unsigned int borderpx  = 1;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
-static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
-static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
-static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
+static const unsigned int gappih    = 5;       /* horiz inner gap between windows */
+static const unsigned int gappiv    = 5;       /* vert inner gap between windows */
+static const unsigned int gappoh    = 5;       /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov    = 5;       /* vert outer gap between windows and screen edge */
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
@@ -24,21 +24,21 @@ static char normbgcolor[]           = "#000000";
 static char normbordercolor[]       = "#5b6268";
 static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#eeeeee";
-static char selbordercolor[]        = "#c678dd";
-static char selbgcolor[]            = "#a9a1e1";
+static char selbordercolor[]        = "#d65d0e";
+static char selbgcolor[]            = "#fb4934";
 static char *colors[][4] = {
        /*               fg           bg           border	float   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor , "#282a36" },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor , "#282a36"  },
-	   [SchemeStatus]  = { "#f7f7fb", "#626483",  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-	   [SchemeTagsSel]  = { "#000000", "#c678dd",  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-       [SchemeTagsNorm]  = { "#eeeeee", "#626483",  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-       [SchemeInfoSel]  = { "#eeeeee", "#5699af",  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-       [SchemeInfoNorm]  = { "#5b6268", "#3071db",  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+	   [SchemeStatus]  = { "#fbf1c7", "#3c3836",  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+	   [SchemeTagsSel]  = { "#1d2021", "#b8bb26",  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+       [SchemeTagsNorm]  = { "#000000", "#bdae93",  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+       [SchemeInfoSel]  = { "#d65d0e", "#665c54",  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+       [SchemeInfoNorm]  = { "#d65d0e", "#504945",  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -57,8 +57,8 @@ static int resizehints = 1;    /* 1 means respect size hints in tiled resizals *
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[T]=",      tile },    /* first entry is default */
-	{ "[F]=",      NULL },    /* no layout function means floating behavior */
+	{ "[T]",      tile },    /* first entry is default */
+	{ "[F]",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
@@ -170,6 +170,7 @@ static Key keys[] = {
 	{ 0,			XK_Print,		spawn,				SHCMD("maim ~/Screenshots/$(date +%s).png")},
 	{ MODKEY,		XK_Print,		spawn,			SHCMD("maim -s | tee ~/Screenshots/$(date +%s).png | xclip -selection clipboard -t image/png")},
 	{ ShiftMask,		XK_Print,		spawn,	SHCMD("maim | tee ~/Pictures/$(date +%s).png | xclip -selection clipboard -t image/png")},
+	{ MODKEY, 		XK_w, 			spawn, 	SHCMD("tabbed surf -e")},
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
