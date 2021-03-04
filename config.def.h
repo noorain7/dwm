@@ -33,7 +33,7 @@ static char *colors[][4] = {
 	   [SchemeStatus]  = { "#fbf1c7", "#3c3836",  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
 	   [SchemeTagsSel]  = { "#1d2021", "#b8bb26",  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
        [SchemeTagsNorm]  = { "#000000", "#bdae93",  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-       [SchemeInfoSel]  = { "#d65d0e", "#665c54",  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+       [SchemeInfoSel]  = { "#fbf1c7", "#665c54",  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
        [SchemeInfoNorm]  = { "#d65d0e", "#504945",  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
