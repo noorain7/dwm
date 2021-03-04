@@ -170,7 +170,6 @@ static Key keys[] = {
 	{ 0,			XK_Print,		spawn,				SHCMD("maim ~/Screenshots/$(date +%s).png")},
 	{ MODKEY,		XK_Print,		spawn,			SHCMD("maim -s | tee ~/Screenshots/$(date +%s).png | xclip -selection clipboard -t image/png")},
 	{ ShiftMask,		XK_Print,		spawn,	SHCMD("maim | tee ~/Pictures/$(date +%s).png | xclip -selection clipboard -t image/png")},
-	{ MODKEY, 		XK_w, 			spawn, 	SHCMD("tabbed surf -e")},
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
